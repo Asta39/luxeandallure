@@ -1,26 +1,75 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Luxe & Allure — OKLCH design tokens.
+ * Source colors sampled from the logo: maroon #500c0e, charcoal #353434.
+ * brand-900 and neutral-800 are those exact values; every other step keeps the
+ * brand hue (24.9) and sits at ~86% of the sRGB max chroma for its lightness.
+ * Neutrals carry a barely-there warm tint (hue 25) so the "SaaS white" surface
+ * sits with the maroon instead of fighting it.
+ */
+@theme {
+  --color-brand-50: oklch(0.975 0.001 24.9);
+  --color-brand-100: oklch(0.945 0.006 24.9);
+  --color-brand-200: oklch(0.89 0.022 24.9);
+  --color-brand-300: oklch(0.81 0.056 24.9);
+  --color-brand-400: oklch(0.7 0.13 24.9);
+  --color-brand-500: oklch(0.6 0.195 24.9);
+  --color-brand-600: oklch(0.51 0.178 24.9);
+  --color-brand-700: oklch(0.43 0.15 24.9);
+  --color-brand-800: oklch(0.355 0.124 24.9);
+  --color-brand-900: oklch(0.283 0.099 24.9); /* logo maroon */
+  --color-brand-950: oklch(0.2 0.07 24.9);
+
+  --color-neutral-0: oklch(1 0 0);
+  --color-neutral-25: oklch(0.985 0.002 25); /* SaaS white page background */
+  --color-neutral-50: oklch(0.975 0.003 25);
+  --color-neutral-100: oklch(0.955 0.003 25);
+  --color-neutral-200: oklch(0.915 0.004 25);
+  --color-neutral-300: oklch(0.86 0.004 25);
+  --color-neutral-400: oklch(0.72 0.004 25);
+  --color-neutral-500: oklch(0.58 0.004 25);
+  --color-neutral-600: oklch(0.46 0.003 25);
+  --color-neutral-700: oklch(0.39 0.002 25);
+  --color-neutral-800: oklch(0.326 0.001 17.2); /* logo charcoal */
+  --color-neutral-900: oklch(0.25 0.002 25);
+  --color-neutral-950: oklch(0.2 0.002 25);
 }
 
+/* Semantic roles. Components use these, not raw scale steps. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-switzer);
+  --color-background: var(--color-neutral-25);
+  --color-surface: var(--color-neutral-0);
+  --color-foreground: var(--color-neutral-800);
+  --color-muted: var(--color-neutral-600); /* 7.2:1 on white */
+  --color-line: var(--color-neutral-200);
+  --color-primary: var(--color-brand-700); /* white text 8.8:1 */
+  --color-primary-hover: var(--color-brand-800);
+  --color-primary-foreground: var(--color-neutral-0);
+  --color-ink: var(--color-brand-950); /* dark sections */
+  --color-ink-foreground: var(--color-neutral-25);
+  --color-ring: var(--color-brand-600);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
