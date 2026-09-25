@@ -99,7 +99,7 @@ export function StickerCanvas() {
     >
       <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center px-6">
         <div className="text-center">
-          <h1>
+          <h2>
             <SparklesText
               colors={sparkleColors}
               sparklesCount={reduce ? 0 : 14}
@@ -109,7 +109,7 @@ export function StickerCanvas() {
               <span className="block">unforgettable</span>
               <span className="block">moments</span>
             </SparklesText>
-          </h1>
+          </h2>
           <p className="mx-auto mt-5 max-w-md text-sm text-muted md:text-lg">
             Luxury event decor, planning and hire in Nairobi.
           </p>

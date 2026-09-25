@@ -68,10 +68,10 @@ function getPanel(panelId: string | null) {
   return menuPanels.find((panel) => panel.id === panelId);
 }
 
-function LuxeLogo({ className = "" }: { className?: string }) {
+function LuxeLogo({ className = "", light = false }: { className?: string; light?: boolean }) {
   return (
     <Image
-      src="/brand/logo.png"
+      src={light ? "/brand/logo-white.png" : "/brand/logo.png"}
       alt="Luxe & Allure Events and Decor"
       width={1400}
       height={432}
@@ -130,7 +130,8 @@ function DropdownPanel({ panel }: { panel: MenuPanel }) {
   return <div className="grid grid-cols-3 gap-4 bg-neutral-800 p-4">{panel.items.map((item) => <PanelCard key={item.title} item={item} />)}</div>;
 }
 
-export default function NavbarTwo({ children }: { children?: ReactNode }) {
+/** `overlay` floats the header over a full-screen first section (white logo, glass controls). */
+export default function NavbarTwo({ children, overlay = false }: { children?: ReactNode; overlay?: boolean }) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileActiveMenu, setMobileActiveMenu] = useState<string | null>(null);
@@ -168,9 +169,10 @@ export default function NavbarTwo({ children }: { children?: ReactNode }) {
   const toggleMenu = (menuName: string) => setActiveMenu(activeMenu === menuName ? null : menuName);
 
   return (
-    <div className="relative flex min-h-[720px] w-full select-none flex-col items-center overflow-hidden bg-background px-6 pb-6 pt-0 font-sans text-zinc-900 transition-colors duration-300">
+    <div className="relative flex min-h-[720px] w-full select-none flex-col items-center overflow-clip bg-background px-6 pb-6 pt-0 font-sans text-zinc-900 transition-colors duration-300">
+      <div className={overlay ? "absolute inset-x-0 top-0 z-40 flex flex-col items-center px-6" : "contents"}>
       <div className="relative z-30 hidden h-12 w-full max-w-7xl items-center justify-between lg:flex">
-        <a href="#" className="flex items-center text-brand-900"><LuxeLogo /></a>
+        <a href="#" className="flex items-center text-brand-900"><LuxeLogo light={overlay} /></a>
 
         <div ref={notchRef} className="absolute left-1/2 top-0 hidden w-[700px] -translate-x-1/2 lg:block" style={{ filter: "drop-shadow(0 12px 20px rgba(0, 0, 0, 0.18))" }}>
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="pointer-events-none absolute -left-[18px] top-0 z-10 text-neutral-800"><path d="M 20 20 L 20 0 L 0 0 C 11.046 0 20 11.046 20 20 Z" fill="currentColor" /></svg>
@@ -202,10 +204,10 @@ export default function NavbarTwo({ children }: { children?: ReactNode }) {
 
       <div ref={mobileRef} className="relative z-30 w-full lg:hidden">
       <div className="flex h-14 w-full items-center justify-between">
-        <a href="#" className="text-brand-900"><LuxeLogo /></a>
+        <a href="#" className="text-brand-900"><LuxeLogo light={overlay} /></a>
         <div className="flex items-center gap-2">
           <a href="#" className="group flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-sm">Build Your Event<ArrowRight className="h-3 w-3" /></a>
-          <button onClick={() => setMobileOpen((open) => !open)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} className="grid size-9 place-items-center rounded-lg border border-zinc-200 text-zinc-900">{mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}</button>
+          <button onClick={() => setMobileOpen((open) => !open)} aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} className={`grid size-9 place-items-center rounded-lg border ${overlay ? "border-white/30 bg-white/15 text-white backdrop-blur-md" : "border-zinc-200 text-zinc-900"}`}>{mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}</button>
         </div>
       </div>
 
@@ -248,6 +250,7 @@ export default function NavbarTwo({ children }: { children?: ReactNode }) {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
       </div>
 
       {children}
